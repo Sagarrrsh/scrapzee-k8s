@@ -48,7 +48,7 @@ spec:
     spec:
       containers:
       - name: mysql
-        image: mysql:8.0
+        image: mariadb:10.6
 
         env:
         - name: MYSQL_ROOT_PASSWORD
@@ -84,4 +84,5 @@ spec:
       - name: mysql-init
         configMap:
           name: mysql-init
+
 
