@@ -30,7 +30,7 @@ spec:
             httpGet:
               path: /health
               port: 5001
-            initialDelaySeconds: 5
+            initialDelaySeconds: 20
             periodSeconds: 5
             timeoutSeconds: 2
             failureThreshold: 3
@@ -39,7 +39,7 @@ spec:
             httpGet:
               path: /health
               port: 5001
-            initialDelaySeconds: 20
+            initialDelaySeconds: 30
             periodSeconds: 10
             timeoutSeconds: 2
             failureThreshold: 3
@@ -80,3 +80,4 @@ spec:
         - pause: {duration: 3m}
         - setWeight: 80
         - pause: {duration: 1m}
+
