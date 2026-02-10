@@ -48,7 +48,7 @@ spec:
     spec:
       containers:
       - name: mysql
-        image: mariadb:10.6
+        image: mysql:8.0
 
         env:
         - name: MYSQL_ROOT_PASSWORD
@@ -59,11 +59,11 @@ spec:
 
         resources:
           requests:
-            cpu: 200m
+            cpu: 100m
             memory: 128Mi
           limits:
-            cpu: 300m
-            memory: 256Mi
+            cpu: 200m
+            memory: 512Mi
 
         readinessProbe:
           tcpSocket:
@@ -84,5 +84,6 @@ spec:
       - name: mysql-init
         configMap:
           name: mysql-init
+
 
 
