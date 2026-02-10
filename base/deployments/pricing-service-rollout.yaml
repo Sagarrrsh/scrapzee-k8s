@@ -23,13 +23,13 @@ spec:
         - name: pricing-service
           image: sagar1003/scrapzee-pricing-api:v1
           ports:
-            - containerPort: 5004
+            - containerPort: 5002
               protocol: TCP
 
           readinessProbe:
             httpGet:
               path: /health
-              port: 5004
+              port: 5002
             initialDelaySeconds: 5
             periodSeconds: 5
             timeoutSeconds: 2
@@ -38,7 +38,7 @@ spec:
           livenessProbe:
             httpGet:
               path: /health
-              port: 5004
+              port: 5002
             initialDelaySeconds: 20
             periodSeconds: 10
             timeoutSeconds: 2
@@ -79,3 +79,4 @@ spec:
         - pause: {duration: 2m}
         - setWeight: 80
         - pause: {duration: 1m}
+
