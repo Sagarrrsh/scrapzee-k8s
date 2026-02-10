@@ -1,5 +1,5 @@
 #!/bin/bash
-set -e
+
 
 echo "Creating namespaces..."
 kubectl create namespace argo-rollouts --dry-run=client -o yaml | kubectl apply -f -
