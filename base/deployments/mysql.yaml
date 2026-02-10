@@ -68,8 +68,9 @@ spec:
         readinessProbe:
           tcpSocket:
             port: 3306
-          initialDelaySeconds: 20
+          initialDelaySeconds: 60
           periodSeconds: 10
+          failureThreshold: 6
 
         volumeMounts:
         - name: mysql-data
@@ -84,6 +85,7 @@ spec:
       - name: mysql-init
         configMap:
           name: mysql-init
+
 
 
 
