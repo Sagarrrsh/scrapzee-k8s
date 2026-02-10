@@ -31,8 +31,8 @@ spec:
               path: /health
               port: 5001
             initialDelaySeconds: 20
-            periodSeconds: 5
-            timeoutSeconds: 2
+            periodSeconds: 10
+            timeoutSeconds: 5
             failureThreshold: 3
 
           livenessProbe:
@@ -40,8 +40,8 @@ spec:
               path: /health
               port: 5001
             initialDelaySeconds: 30
-            periodSeconds: 10
-            timeoutSeconds: 2
+            periodSeconds: 15
+            timeoutSeconds: 5
             failureThreshold: 3
 
           resources:
@@ -80,4 +80,5 @@ spec:
         - pause: {duration: 3m}
         - setWeight: 80
         - pause: {duration: 1m}
+
 
