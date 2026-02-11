@@ -10,7 +10,8 @@ metadata:
 spec:
   ingressClassName: nginx
   rules:
-  - http:
+  - host: scrapzee.local
+    http:
       paths:
       - path: /api/pricing
         pathType: Prefix
@@ -18,4 +19,5 @@ spec:
           service:
             name: pricing-service-canary
             port:
+
               number: 80
