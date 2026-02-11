@@ -10,7 +10,8 @@ metadata:
 spec:
   ingressClassName: nginx
   rules:
-  - http:
+  - host: scrapzee.local
+    http:
       paths:
       - path: /api/dealers
         pathType: Prefix
@@ -25,4 +26,5 @@ spec:
           service:
             name: dealer-service-canary
             port:
+
               number: 80
