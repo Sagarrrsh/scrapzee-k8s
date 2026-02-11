@@ -16,4 +16,5 @@ spec:
               kubernetes.io/metadata.name: ingress-nginx
       ports:
         - protocol: TCP
-          port: 5001
+          port: 80
+
