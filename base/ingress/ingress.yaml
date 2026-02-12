@@ -5,8 +5,8 @@ metadata:
   namespace: scrapzee
   annotations:
     # --- Rate Limiting ---
-    nginx.ingress.kubernetes.io/limit-rps: "1"
-    nginx.ingress.kubernetes.io/limit-burst-multiplier: "1"
+    nginx.ingress.kubernetes.io/limit-rps: "10"
+    nginx.ingress.kubernetes.io/limit-burst-multiplier: "3"
     nginx.ingress.kubernetes.io/limit-connections: "20"
 
     # --- Body Size Protection ---
@@ -68,4 +68,5 @@ spec:
             name: frontend-stable
             port:
               number: 80
+
 
