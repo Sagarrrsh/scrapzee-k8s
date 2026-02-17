@@ -26,7 +26,7 @@ resources:
   - services/dealer-svc-canary.yaml
   - services/user-svc-canary.yaml
   - services/pricing-svc-canary.yaml
-  - services/mysql-svc.yaml
+ # - services/mysql-svc.yaml
 
   # 5. Main Ingress 
   - ingress/ingress.yaml
@@ -61,4 +61,5 @@ resources:
   # - analysis/dealer-service-analysis.yaml
   # - analysis/pricing-service-analysis.yaml
   # - analysis/frontend-analysis.yaml
+
 
