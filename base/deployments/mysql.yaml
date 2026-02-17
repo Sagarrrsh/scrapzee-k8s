@@ -1,15 +1,19 @@
+# SECRET (MySQL Root Password)
+
 apiVersion: v1
-kind: PersistentVolumeClaim
+kind: Secret
 metadata:
-  name: mysql-pvc
+  name: mysql-secret
   namespace: scrapzee
-spec:
-  accessModes:
-    - ReadWriteOnce
-  resources:
-    requests:
-      storage: 1Gi
+type: Opaque
+stringData:
+  MYSQL_ROOT_PASSWORD: password
+
+
 ---
+
+# CONFIGMAP (Database Init Script)
+
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -30,62 +34,98 @@ data:
     GRANT ALL PRIVILEGES ON scrapzee_dealers.* TO 'scrapzee'@'%';
 
     FLUSH PRIVILEGES;
+
+
 ---
-apiVersion: apps/v1
-kind: Deployment
+# HEADLESS SERVICE (Required for StatefulSet)
+
+apiVersion: v1
+kind: Service
 metadata:
   name: mysql
   namespace: scrapzee
 spec:
+  clusterIP: None
+  selector:
+    app: mysql
+  ports:
+    - port: 3306
+      targetPort: 3306
+
+
+---
+# STATEFULSET
+
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: mysql
+  namespace: scrapzee
+spec:
+  serviceName: mysql
   replicas: 1
+
   selector:
     matchLabels:
       app: mysql
+
   template:
     metadata:
       labels:
         app: mysql
     spec:
       containers:
-      - name: mysql
-        image: mysql:8.0
+        - name: mysql
+          image: mysql:8.0
 
-        env:
-        - name: MYSQL_ROOT_PASSWORD
-          value: "password"
+          env:
+            - name: MYSQL_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mysql-secret
+                  key: MYSQL_ROOT_PASSWORD
 
-        ports:
-        - containerPort: 3306
+          ports:
+            - containerPort: 3306
 
-        resources:
-          requests:
-            cpu: 100m
-            memory: 128Mi
-          limits:
-            cpu: 200m
-            memory: 512Mi
+          resources:
+            requests:
+              cpu: 100m
+              memory: 128Mi
+            limits:
+              cpu: 300m
+              memory: 512Mi
 
-        readinessProbe:
-          tcpSocket:
-            port: 3306
-          initialDelaySeconds: 60
-          periodSeconds: 10
-          failureThreshold: 6
+          readinessProbe:
+            tcpSocket:
+              port: 3306
+            initialDelaySeconds: 60
+            periodSeconds: 10
+            failureThreshold: 6
 
-        volumeMounts:
-        - name: mysql-data
-          mountPath: /var/lib/mysql
-        - name: mysql-init
-          mountPath: /docker-entrypoint-initdb.d
+          livenessProbe:
+            tcpSocket:
+              port: 3306
+            initialDelaySeconds: 90
+            periodSeconds: 20
+            failureThreshold: 6
+
+          volumeMounts:
+            - name: mysql-data
+              mountPath: /var/lib/mysql
+            - name: mysql-init
+              mountPath: /docker-entrypoint-initdb.d
 
       volumes:
-      - name: mysql-data
-        persistentVolumeClaim:
-          claimName: mysql-pvc
-      - name: mysql-init
-        configMap:
-          name: mysql-init
+        - name: mysql-init
+          configMap:
+            name: mysql-init
 
-
-
-
+  volumeClaimTemplates:
+    - metadata:
+        name: mysql-data
+      spec:
+        accessModes: ["ReadWriteOnce"]
+        resources:
+          requests:
+            storage: 1Gi
