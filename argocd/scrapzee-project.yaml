@@ -22,6 +22,8 @@ spec:
   namespaceResourceWhitelist:
     - group: apps
       kind: Deployment
+    - group: apps
+      kind: StatefulSet   
 
     - group: argoproj.io
       kind: Rollout
@@ -50,4 +52,3 @@ spec:
 
     - group: autoscaling
       kind: HorizontalPodAutoscaler
-
