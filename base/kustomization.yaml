@@ -30,23 +30,23 @@ resources:
 
   # 5. Main Ingress 
   - ingress/ingress.yaml
+  
+  # 6. MySQL 
+  - deployments/mysql.yaml
 
-  # 6. Rollouts 
+  # 7. Rollouts 
   - deployments/frontend-rollout.yaml
   - deployments/auth-service-rollout.yaml
   - deployments/dealer-service-rollout.yaml
   - deployments/user-service-rollout.yaml
   - deployments/pricing-service-rollout.yaml
 
-  # 7. Canary Ingress 
+  # 8. Canary Ingress 
   - ingress/ingress-canary-auth.yaml
   - ingress/ingress-canary-dealer.yaml
   - ingress/ingress-canary-frontend.yaml
   - ingress/ingress-canary-pricing.yaml
   - ingress/ingress-canary-user.yaml
-
-  # 8. MySQL 
-  - deployments/mysql.yaml
 
   # 9. HPA 
   - hpa/user-hpa.yaml
@@ -61,5 +61,6 @@ resources:
   # - analysis/dealer-service-analysis.yaml
   # - analysis/pricing-service-analysis.yaml
   # - analysis/frontend-analysis.yaml
+
 
 
